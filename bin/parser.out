@@ -1,0 +1,272 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    LPAREN
+    NEWLINE
+    RPAREN
+    HASH
+    WHITESPACE
+    QUOTE
+    JUNK
+    COMMENT
+
+Grammar
+
+Rule 0     S' -> bibfile
+Rule 1     bibfile -> entries
+Rule 2     entries -> entry entries
+Rule 3     entries -> entry
+Rule 4     entry -> AT NAME LBRACE key COMMA fields RBRACE
+Rule 5     fields -> field COMMA fields
+Rule 6     fields -> field
+Rule 7     field -> NAME EQUALS LBRACE value RBRACE
+Rule 8     value -> STRING
+Rule 9     value -> NUMBER
+Rule 10    value -> NAME
+Rule 11    key -> NAME
+Rule 12    key -> NUMBER
+
+Terminals, with rules where they appear
+
+AT                   : 4
+COMMA                : 4 5
+COMMENT              : 
+EQUALS               : 7
+HASH                 : 
+JUNK                 : 
+LBRACE               : 4 7
+LPAREN               : 
+NAME                 : 4 7 10 11
+NEWLINE              : 
+NUMBER               : 9 12
+QUOTE                : 
+RBRACE               : 4 7
+RPAREN               : 
+STRING               : 8
+WHITESPACE           : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+bibfile              : 0
+entries              : 1 2
+entry                : 2 3
+field                : 5 6
+fields               : 4 5
+key                  : 4
+value                : 7
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . bibfile
+    (1) bibfile -> . entries
+    (2) entries -> . entry entries
+    (3) entries -> . entry
+    (4) entry -> . AT NAME LBRACE key COMMA fields RBRACE
+
+    AT              shift and go to state 2
+
+    entries                        shift and go to state 1
+    entry                          shift and go to state 4
+    bibfile                        shift and go to state 3
+
+state 1
+
+    (1) bibfile -> entries .
+
+    $end            reduce using rule 1 (bibfile -> entries .)
+
+
+state 2
+
+    (4) entry -> AT . NAME LBRACE key COMMA fields RBRACE
+
+    NAME            shift and go to state 5
+
+
+state 3
+
+    (0) S' -> bibfile .
+
+
+
+state 4
+
+    (2) entries -> entry . entries
+    (3) entries -> entry .
+    (2) entries -> . entry entries
+    (3) entries -> . entry
+    (4) entry -> . AT NAME LBRACE key COMMA fields RBRACE
+
+    $end            reduce using rule 3 (entries -> entry .)
+    AT              shift and go to state 2
+
+    entries                        shift and go to state 6
+    entry                          shift and go to state 4
+
+state 5
+
+    (4) entry -> AT NAME . LBRACE key COMMA fields RBRACE
+
+    LBRACE          shift and go to state 7
+
+
+state 6
+
+    (2) entries -> entry entries .
+
+    $end            reduce using rule 2 (entries -> entry entries .)
+
+
+state 7
+
+    (4) entry -> AT NAME LBRACE . key COMMA fields RBRACE
+    (11) key -> . NAME
+    (12) key -> . NUMBER
+
+    NAME            shift and go to state 8
+    NUMBER          shift and go to state 9
+
+    key                            shift and go to state 10
+
+state 8
+
+    (11) key -> NAME .
+
+    COMMA           reduce using rule 11 (key -> NAME .)
+
+
+state 9
+
+    (12) key -> NUMBER .
+
+    COMMA           reduce using rule 12 (key -> NUMBER .)
+
+
+state 10
+
+    (4) entry -> AT NAME LBRACE key . COMMA fields RBRACE
+
+    COMMA           shift and go to state 11
+
+
+state 11
+
+    (4) entry -> AT NAME LBRACE key COMMA . fields RBRACE
+    (5) fields -> . field COMMA fields
+    (6) fields -> . field
+    (7) field -> . NAME EQUALS LBRACE value RBRACE
+
+    NAME            shift and go to state 12
+
+    fields                         shift and go to state 13
+    field                          shift and go to state 14
+
+state 12
+
+    (7) field -> NAME . EQUALS LBRACE value RBRACE
+
+    EQUALS          shift and go to state 15
+
+
+state 13
+
+    (4) entry -> AT NAME LBRACE key COMMA fields . RBRACE
+
+    RBRACE          shift and go to state 16
+
+
+state 14
+
+    (5) fields -> field . COMMA fields
+    (6) fields -> field .
+
+    COMMA           shift and go to state 17
+    RBRACE          reduce using rule 6 (fields -> field .)
+
+
+state 15
+
+    (7) field -> NAME EQUALS . LBRACE value RBRACE
+
+    LBRACE          shift and go to state 18
+
+
+state 16
+
+    (4) entry -> AT NAME LBRACE key COMMA fields RBRACE .
+
+    AT              reduce using rule 4 (entry -> AT NAME LBRACE key COMMA fields RBRACE .)
+    $end            reduce using rule 4 (entry -> AT NAME LBRACE key COMMA fields RBRACE .)
+
+
+state 17
+
+    (5) fields -> field COMMA . fields
+    (5) fields -> . field COMMA fields
+    (6) fields -> . field
+    (7) field -> . NAME EQUALS LBRACE value RBRACE
+
+    NAME            shift and go to state 12
+
+    fields                         shift and go to state 19
+    field                          shift and go to state 14
+
+state 18
+
+    (7) field -> NAME EQUALS LBRACE . value RBRACE
+    (8) value -> . STRING
+    (9) value -> . NUMBER
+    (10) value -> . NAME
+
+    STRING          shift and go to state 23
+    NUMBER          shift and go to state 22
+    NAME            shift and go to state 21
+
+    value                          shift and go to state 20
+
+state 19
+
+    (5) fields -> field COMMA fields .
+
+    RBRACE          reduce using rule 5 (fields -> field COMMA fields .)
+
+
+state 20
+
+    (7) field -> NAME EQUALS LBRACE value . RBRACE
+
+    RBRACE          shift and go to state 24
+
+
+state 21
+
+    (10) value -> NAME .
+
+    RBRACE          reduce using rule 10 (value -> NAME .)
+
+
+state 22
+
+    (9) value -> NUMBER .
+
+    RBRACE          reduce using rule 9 (value -> NUMBER .)
+
+
+state 23
+
+    (8) value -> STRING .
+
+    RBRACE          reduce using rule 8 (value -> STRING .)
+
+
+state 24
+
+    (7) field -> NAME EQUALS LBRACE value RBRACE .
+
+    COMMA           reduce using rule 7 (field -> NAME EQUALS LBRACE value RBRACE .)
+    RBRACE          reduce using rule 7 (field -> NAME EQUALS LBRACE value RBRACE .)
+
